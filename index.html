@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" ng-app="histogramApp">
+
+<head>
+  <meta charset="utf-8">
+  <title>Histogram App</title>
+</head>
+
+<body>
+
+<div ng-controller="HistogramController">
+
+	<h2>Histogram App</h2>
+
+	<p>
+		<button ng-click="generateHistogram()">Generate Array and Histogram</button>
+	</p>
+
+	<p>Array generated:: <span ng-bind="showArray()"></span></p>
+
+	<p>Histogram generated:: <span ng-bind="showHistogram()"></span></p>
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+
+var app = angular.module("histogramApp", []);
+
+app.controller("HistogramController", function($scope) {
+	
+	$scope.array = new Array();
+	$scope.counts = new Array();
+	$scope.histogram = {};
+    
+    $scope.generateHistogram = function() {
+    	
+        // Create the array of random numbers, from 1-10
+    	$scope.array = [];
+        for(var i = 0; i < 10; i++){
+            $scope.array[i] = Math.floor((Math.random() * 10) + 1);
+        }
+
+    	// Loop through the random number array
+    	$scope.histogram = {};	
+    	for(var i=0; i < $scope.array.length; i++){
+    		// Set the key of the object to the index of the array
+    		var key = $scope.array[i];
+    		// If the key already exists, increment its value by 1,
+    		// if the key doesn't exist in the object, set its value to 1
+  			$scope.histogram[key] = ($scope.histogram[key])? $scope.histogram[key] + 1 : 1;
+    	}
+    };
+
+    $scope.showArray  = function() {
+		return $scope.array;
+	};
+
+	$scope.showHistogram  = function() {
+		return JSON.stringify($scope.histogram);
+	};
+
+});
+
+</script>
+
+</body>
+</html>
